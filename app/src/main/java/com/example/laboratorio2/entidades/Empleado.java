@@ -9,9 +9,17 @@ public class Empleado {
     private Trabajo[] jobId;
     private Double salary;
     private Double commissionPct;
-    private Jefe managerId;
+    private Jefe[] managerId;
     private Departamento[] departmentId;
     private String createdBy;
+
+    public Jefe[] getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(Jefe[] managerId) {
+        this.managerId = managerId;
+    }
 
     public String getEmployeeId() {
         return employeeId;
@@ -77,13 +85,7 @@ public class Empleado {
         this.commissionPct = commissionPct;
     }
 
-    public Jefe getManagerId() {
-        return managerId;
-    }
 
-    public void setManagerId(Jefe managerId) {
-        this.managerId = managerId;
-    }
 
     public Departamento[] getDepartmentId() {
         return departmentId;
