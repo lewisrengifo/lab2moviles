@@ -2,18 +2,18 @@ package com.example.laboratorio2.entidades;
 
 public class Trabajo {
 
-    private String jodId;
+    private String jobId;
     private String jobTitle;
     private int minSalary;
     private int maxSalary;
     private String createdBy;
 
-    public String getJodId() {
-        return jodId;
+    public String getJobId() {
+        return jobId;
     }
 
-    public void setJodId(String jodId) {
-        this.jodId = jodId;
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
     }
 
     public String getJobTitle() {
