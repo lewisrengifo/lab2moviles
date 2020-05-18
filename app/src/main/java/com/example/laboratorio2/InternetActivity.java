@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.laboratorio2.entidades.ApiKey;
 import com.example.laboratorio2.entidades.DtoTrabajo;
 import com.example.laboratorio2.entidades.Trabajo;
 import com.google.gson.Gson;
@@ -30,15 +31,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InternetActivity extends AppCompatActivity {
-
+    String apikey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        obtenerapikey();
+
     }
 
-    public void obtenerDeInternet(View view) {
+    public void obtenerDeInternet( ) {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/trabajos";
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
@@ -47,8 +50,8 @@ public class InternetActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
-                        Trabajo t = gson.fromJson(response,Trabajo.class);
-                        Log.d("trabajo", t.getJobId());
+                        DtoTrabajo t = gson.fromJson(response,DtoTrabajo.class);
+                        Log.d("trabajo", String.valueOf(t.getTrabajos().length));
 
                     }
                 },
@@ -61,7 +64,7 @@ public class InternetActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key","S6qhdQp9nNU8JkQ9sH76");
+                cabeceras.put("api-key",apikey);
                 return cabeceras;
             }
         };
@@ -70,6 +73,37 @@ public class InternetActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
 
+
+    }
+    public String obtenerapikey() {
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/getApiKey?groupKey=3an4WujfyPA2VddT2vEb";
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        ApiKey apiKey = gson.fromJson(response, ApiKey.class);
+                        Log.d("api-key", apiKey.getApikey());
+                        apikey = apiKey.getApikey();
+                        obtenerDeInternet();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+        return "" ;
 
     }
 
