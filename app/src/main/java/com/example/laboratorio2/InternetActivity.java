@@ -295,6 +295,86 @@ public class InternetActivity extends AppCompatActivity {
 
 
     }
+    public void guardarEmpleado(final String employeeid, final String firstName, final String lastName, final String email, final String phoneNumber, final  jobId, final Double salary,final Double commissionPct,final managerId,final departmentId ,final String update) {
+
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        Message msg = gson.fromJson(response, Message.class);
+                        Log.d("msg", msg.getMsg());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("jobId",jobid);
+                params.put("jobTitle",jobtitle);
+                params.put("minSalary",minsalary;
+                params.put("maxSalary",maxsalary);
+                params.put("update",update);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void borrarEmpleado(String id) {
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/empleado"+id;
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        Message msg = gson.fromJson(response, Message.class);
+                        Log.d("estado", msg.getMsg());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
 
 
 
