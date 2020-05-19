@@ -23,7 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.laboratorio2.entidades.ApiKey;
+import com.example.laboratorio2.entidades.DtoEmpleado;
 import com.example.laboratorio2.entidades.DtoTrabajo;
+import com.example.laboratorio2.entidades.Message;
 import com.example.laboratorio2.entidades.Trabajo;
 import com.google.gson.Gson;
 
@@ -104,6 +106,192 @@ public class InternetActivity extends AppCompatActivity {
 
         requestQueue.add(stringRequest);
         return "" ;
+
+    }
+
+    public void obtenerDepartamentos( ) {
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
+                        Log.d("departamento", String.valueOf(t.getDepartamentos().length));
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void buscarDepartamentos(String id) {
+
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/buscar/departamento?id="+id;
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
+                        Log.d("departamento", String.valueOf(t.getDepartamentos().length));
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void guardarTrabajo(final String jobid, final String jobtitle, final String minsalary, final String maxsalary, final String update) {
+
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/trabajo";
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        Message msg = gson.fromJson(response, Message.class);
+                        Log.d("msg", msg.getMsg());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> params = new HashMap<>();
+                params.put("jobId",jobid);
+                params.put("jobTitle",jobtitle);
+                params.put("minSalary",minsalary;
+                params.put("maxSalary",maxsalary);
+                params.put("update",update);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void borrarTrabajo(String id) {
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id"+id;
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        Message msg = gson.fromJson(response, Message.class);
+                        Log.d("estado", msg.getMsg());
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
+
+    }
+
+    public void obtenerEmpleados( ) {
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/empleados";
+
+        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("respuesta", response);
+                        Gson gson = new Gson();
+                        DtoEmpleado t = gson.fromJson(response, DtoEmpleado.class);
+                        Log.d("empleado", String.valueOf(t.getEmpleados().length));
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", error.getMessage());
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key",apikey);
+                return cabeceras;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        requestQueue.add(stringRequest);
+
 
     }
 
