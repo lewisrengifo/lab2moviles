@@ -296,6 +296,8 @@ public class InternetActivity extends AppCompatActivity {
 
     }
 
+
+
     public boolean isInternetAvailable() {
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
