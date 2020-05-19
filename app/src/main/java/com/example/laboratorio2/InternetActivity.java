@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.laboratorio2.entidades.ApiKey;
+import com.example.laboratorio2.entidades.DtoDepartamento;
 import com.example.laboratorio2.entidades.DtoEmpleado;
 import com.example.laboratorio2.entidades.DtoTrabajo;
 import com.example.laboratorio2.entidades.Message;
