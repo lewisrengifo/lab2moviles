@@ -35,6 +35,7 @@ import java.util.Map;
 
 public class InternetActivity extends AppCompatActivity {
     String apikey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,9 +43,10 @@ public class InternetActivity extends AppCompatActivity {
 
         obtenerapikey();
 
+
     }
 
-    public void obtenerDeInternet( ) {
+    public void obtenerDeInternet() {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/trabajos";
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
@@ -53,7 +55,7 @@ public class InternetActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
-                        DtoTrabajo t = gson.fromJson(response,DtoTrabajo.class);
+                        DtoTrabajo t = gson.fromJson(response, DtoTrabajo.class);
                         Log.d("trabajo", String.valueOf(t.getTrabajos().length));
 
                     }
@@ -66,8 +68,8 @@ public class InternetActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
+                Map<String, String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key", apikey);
                 return cabeceras;
             }
         };
@@ -78,6 +80,7 @@ public class InternetActivity extends AppCompatActivity {
 
 
     }
+
     public String obtenerapikey() {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/getApiKey?groupKey=3an4WujfyPA2VddT2vEb";
 
@@ -91,6 +94,12 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("api-key", apiKey.getApikey());
                         apikey = apiKey.getApikey();
                         obtenerDeInternet();
+                        obtenerEmpleados();
+                        obtenerDepartamentos();
+                        buscarDepartamentos("100");
+                        //guardarTrabajo( "AE_PRESI", "PRESIIIII", "10000", "1000000", "true");
+                        borrarTrabajo("AD_PRESI");
+                        guardarEmpleado("");
 
                     }
                 },
@@ -106,11 +115,11 @@ public class InternetActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         requestQueue.add(stringRequest);
-        return "" ;
+        return "";
 
     }
 
-    public void obtenerDepartamentos( ) {
+   public void obtenerDepartamentos( ) {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
@@ -144,6 +153,7 @@ public class InternetActivity extends AppCompatActivity {
 
 
     }
+
 
     public void buscarDepartamentos(String id) {
 
@@ -181,6 +191,7 @@ public class InternetActivity extends AppCompatActivity {
 
     }
 
+
     public void guardarTrabajo(final String jobid, final String jobtitle, final String minsalary, final String maxsalary, final String update) {
 
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/trabajo";
@@ -212,9 +223,10 @@ public class InternetActivity extends AppCompatActivity {
                 Map<String,String> params = new HashMap<>();
                 params.put("jobId",jobid);
                 params.put("jobTitle",jobtitle);
-                params.put("minSalary",minsalary;
+                params.put("minSalary",minsalary);
                 params.put("maxSalary",maxsalary);
-                params.put("update",update);
+                params.put("update", update);
+
                 return params;
             }
         };
@@ -226,8 +238,9 @@ public class InternetActivity extends AppCompatActivity {
 
     }
 
+
     public void borrarTrabajo(String id) {
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id"+id;
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id="+id;
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url,
                 new Response.Listener<String>() {
@@ -261,7 +274,7 @@ public class InternetActivity extends AppCompatActivity {
 
     }
 
-    public void obtenerEmpleados( ) {
+    public void obtenerEmpleados() {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/empleados";
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
@@ -283,8 +296,8 @@ public class InternetActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
+                Map<String, String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key", apikey);
                 return cabeceras;
             }
         };
@@ -295,7 +308,8 @@ public class InternetActivity extends AppCompatActivity {
 
 
     }
-    public void guardarEmpleado(final String employeeid, final String firstName, final String lastName, final String email, final String phoneNumber, final  jobId, final Double salary,final Double commissionPct,final managerId,final departmentId ,final String update) {
+
+ public void guardarEmpleado(final String employeeid, final String firstName, final String lastName, final String email, final String phoneNumber, final int jobId, final Double salary,final Double commissionPct,final int managerId,final int departmentId ,final String update) {
 
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
 
@@ -324,11 +338,17 @@ public class InternetActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
-                params.put("jobId",jobid);
-                params.put("jobTitle",jobtitle);
-                params.put("minSalary",minsalary;
-                params.put("maxSalary",maxsalary);
+                params.put("employeeid",employeeid);
+                params.put("firstName",firstName);
+                params.put("lastName",lastName);
+                params.put("email",email);
                 params.put("update",update);
+                params.put("phoneNumber", phoneNumber);
+                params.put("jobId", String.valueOf(jobId));
+                params.put("salary", String.valueOf(salary));
+                params.put("commissionPct", String.valueOf(commissionPct));
+                params.put("managerId", String.valueOf(managerId));
+                params.put("departmentId", String.valueOf(departmentId));
                 return params;
             }
         };
