@@ -16,9 +16,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,9 +44,10 @@ import java.util.Map;
 
 public class InternetActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbar,menu);
+        getMenuInflater().inflate(R.menu.appbar, menu);
         return true;
     }
+
     String apikey;
 
     @Override
@@ -52,7 +56,7 @@ public class InternetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         obtenerapikey();
-        Button button = findViewById(R.id.abrirEmpleados);
+        /*Button button = findViewById(R.id.abrirEmpleados);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +64,7 @@ public class InternetActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+*/
 
     }
 
@@ -81,15 +85,15 @@ public class InternetActivity extends AppCompatActivity {
                         recyclerView.setAdapter(listaTrabajosAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
 
-                        DtoEmpleado dtoEmpleado = gson.fromJson(response,DtoEmpleado.class);
+                        DtoEmpleado dtoEmpleado = gson.fromJson(response, DtoEmpleado.class);
                         Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
 
                         ListaEmpleadosAdapter listaEmpleadosAdapter =
-                                new ListaEmpleadosAdapter(listaEmpleados,InternetActivity.this);
+                                new ListaEmpleadosAdapter(listaEmpleados, InternetActivity.this);
 
-                        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
-                        recyclerView.setAdapter(listaEmpleadosAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
+                        RecyclerView recyclerView2 = findViewById(R.id.recyclerView2);
+                        recyclerView2.setAdapter(listaEmpleadosAdapter);
+                        recyclerView2.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
 
                     }
                 },
@@ -127,10 +131,10 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("api-key", apiKey.getApikey());
                         apikey = apiKey.getApikey();
                         obtenerDeInternet();
-                        obtenerEmpleados();
+
                         obtenerDepartamentos();
                         buscarDepartamentos("100");
-                        //guardarTrabajo( "AE_PRESI", "PRESIIIII", "10000", "1000000", "true");
+                        guardarTrabajo("AE_PRESI", "PRESIIIII", "10000", "1000000", "true");
                         borrarTrabajo("AD_PRESI");
                         //guardarEmpleado("");
 
@@ -152,7 +156,7 @@ public class InternetActivity extends AppCompatActivity {
 
     }
 
-   public void obtenerDepartamentos( ) {
+    public void obtenerDepartamentos() {
         String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/departamentos";
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
@@ -161,7 +165,7 @@ public class InternetActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
-                        DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
+                        DtoDepartamento t = gson.fromJson(response, DtoDepartamento.class);
 
 
                     }
@@ -174,8 +178,8 @@ public class InternetActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
+                Map<String, String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key", apikey);
                 return cabeceras;
             }
         };
@@ -190,7 +194,7 @@ public class InternetActivity extends AppCompatActivity {
 
     public void buscarDepartamentos(String id) {
 
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/buscar/departamento?id="+id;
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/buscar/departamento?id=" + id;
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
                 new Response.Listener<String>() {
@@ -198,7 +202,7 @@ public class InternetActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
-                        DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
+                        DtoDepartamento t = gson.fromJson(response, DtoDepartamento.class);
 
 
                     }
@@ -211,8 +215,8 @@ public class InternetActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
+                Map<String, String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key", apikey);
                 return cabeceras;
             }
         };
@@ -247,17 +251,18 @@ public class InternetActivity extends AppCompatActivity {
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
+                Map<String, String> cabeceras = new HashMap<>();
+                cabeceras.put("api-key", apikey);
                 return cabeceras;
             }
+
             @Override
             public Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("jobId",jobid);
-                params.put("jobTitle",jobtitle);
-                params.put("minSalary",minsalary);
-                params.put("maxSalary",maxsalary);
+                Map<String, String> params = new HashMap<>();
+                params.put("jobId", jobid);
+                params.put("jobTitle", jobtitle);
+                params.put("minSalary", minsalary);
+                params.put("maxSalary", maxsalary);
                 params.put("update", update);
 
                 return params;
@@ -273,7 +278,7 @@ public class InternetActivity extends AppCompatActivity {
 
 
     public void borrarTrabajo(String id) {
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id="+id;
+        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/trabajo?id=" + id;
 
         StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url,
                 new Response.Listener<String>() {
@@ -283,42 +288,6 @@ public class InternetActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         Message msg = gson.fromJson(response, Message.class);
                         Log.d("estado", msg.getMsg());
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("error", error.getMessage());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
-                return cabeceras;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        requestQueue.add(stringRequest);
-
-
-    }
-
-    public void obtenerEmpleados() {
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/listar/empleados";
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("respuesta", response);
-                        Gson gson = new Gson();
-                        DtoEmpleado t = gson.fromJson(response, DtoEmpleado.class);
-                        //Empleado[] = t.getEmpleados();
-
 
                     }
                 },
@@ -342,94 +311,6 @@ public class InternetActivity extends AppCompatActivity {
 
 
     }
-
- public void guardarEmpleado(final String employeeid, final String firstName, final String lastName, final String email, final String phoneNumber, final int jobId, final Double salary,final Double commissionPct,final int managerId,final int departmentId ,final String update) {
-
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/empleado";
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("respuesta", response);
-                        Gson gson = new Gson();
-                        Message msg = gson.fromJson(response, Message.class);
-                        Log.d("msg", msg.getMsg());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("error", error.getMessage());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
-                return cabeceras;
-            }
-            @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> params = new HashMap<>();
-                params.put("employeeid",employeeid);
-                params.put("firstName",firstName);
-                params.put("lastName",lastName);
-                params.put("email",email);
-                params.put("update",update);
-                params.put("phoneNumber", phoneNumber);
-                params.put("jobId", String.valueOf(jobId));
-                params.put("salary", String.valueOf(salary));
-                params.put("commissionPct", String.valueOf(commissionPct));
-                params.put("managerId", String.valueOf(managerId));
-                params.put("departmentId", String.valueOf(departmentId));
-                return params;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        requestQueue.add(stringRequest);
-
-
-    }
-
-    public void borrarEmpleado(String id) {
-        String url = "http://ec2-54-165-73-192.compute-1.amazonaws.com:9000/borrar/empleado"+id;
-
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.DELETE, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d("respuesta", response);
-                        Gson gson = new Gson();
-                        Message msg = gson.fromJson(response, Message.class);
-                        Log.d("estado", msg.getMsg());
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("error", error.getMessage());
-                    }
-                }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> cabeceras = new HashMap<>();
-                cabeceras.put("api-key",apikey);
-                return cabeceras;
-            }
-        };
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        requestQueue.add(stringRequest);
-
-
-    }
-
-
 
 
     public boolean isInternetAvailable() {
@@ -463,4 +344,5 @@ public class InternetActivity extends AppCompatActivity {
 
         }
     }
+
 }
