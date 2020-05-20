@@ -99,7 +99,7 @@ public class InternetActivity extends AppCompatActivity {
                         buscarDepartamentos("100");
                         //guardarTrabajo( "AE_PRESI", "PRESIIIII", "10000", "1000000", "true");
                         borrarTrabajo("AD_PRESI");
-                        guardarEmpleado("");
+                        //guardarEmpleado("");
 
                     }
                 },
