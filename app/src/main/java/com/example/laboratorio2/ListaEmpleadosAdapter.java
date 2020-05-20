@@ -45,9 +45,16 @@ public class ListaEmpleadosAdapter extends RecyclerView.Adapter<ListaEmpleadosAd
 
         Empleado e = listaEmpleados[position];
 
-        String texto =e.getFirstName();
-        holder.textView.setText(texto);
+        if (e.getCreatedBy().equals("grupo_4")) {
 
+            String texto = e.getEmployeeId()+" " +e.getFirstName() + " " + e.getLastName() + " "
+                    + e.getEmail() + " " + e.getPhoneNumber() + " " + String.valueOf(e.getSalary()) + " "
+                    + String.valueOf(e.getCommissionPct()) ;
+            holder.textView.setText(texto);
+        } else {
+            String texto = " ";
+            holder.textView.setText(texto);
+        }
     }
 
     @Override

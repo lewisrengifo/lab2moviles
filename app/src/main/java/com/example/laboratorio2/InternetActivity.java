@@ -81,6 +81,16 @@ public class InternetActivity extends AppCompatActivity {
                         recyclerView.setAdapter(listaTrabajosAdapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
 
+                        DtoEmpleado dtoEmpleado = gson.fromJson(response,DtoEmpleado.class);
+                        Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
+
+                        ListaEmpleadosAdapter listaEmpleadosAdapter =
+                                new ListaEmpleadosAdapter(listaEmpleados,InternetActivity.this);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
+                        recyclerView.setAdapter(listaEmpleadosAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
+
                     }
                 },
                 new Response.ErrorListener() {
