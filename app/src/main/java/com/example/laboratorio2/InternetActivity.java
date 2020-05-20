@@ -1,6 +1,8 @@
 package com.example.laboratorio2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 //import androidx.recyclerview.widget.LinearLayoutManager;
 //import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +58,12 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
                         DtoTrabajo t = gson.fromJson(response, DtoTrabajo.class);
-                        Log.d("trabajo", String.valueOf(t.getTrabajos().length));
+
+                        Trabajo[] listaTrabajos = t.getTrabajos();
+                        ListaTrabajosAdapter listaTrabajosAdapter = new ListaTrabajosAdapter(listaTrabajos, InternetActivity.this);
+                        RecyclerView recyclerView = findViewById(R.id.recyclerViewTrabajo);
+                        recyclerView.setAdapter(listaTrabajosAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
 
                     }
                 },
@@ -129,7 +136,7 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
                         DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
-                        Log.d("departamento", String.valueOf(t.getDepartamentos().length));
+
 
                     }
                 },
@@ -166,7 +173,7 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
                         DtoDepartamento t = gson.fromJson(response,DtoDepartamento.class);
-                        Log.d("departamento", String.valueOf(t.getDepartamentos().length));
+
 
                     }
                 },
@@ -284,7 +291,7 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
                         DtoEmpleado t = gson.fromJson(response, DtoEmpleado.class);
-                        Log.d("empleado", String.valueOf(t.getEmpleados().length));
+
 
                     }
                 },

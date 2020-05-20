@@ -20,6 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".EmpleadoFormulario"></activity>
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>
