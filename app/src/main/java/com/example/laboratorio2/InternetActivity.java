@@ -1,6 +1,8 @@
 package com.example.laboratorio2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 //import androidx.recyclerview.widget.LinearLayoutManager;
 //import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,6 +28,7 @@ import com.example.laboratorio2.entidades.ApiKey;
 import com.example.laboratorio2.entidades.DtoDepartamento;
 import com.example.laboratorio2.entidades.DtoEmpleado;
 import com.example.laboratorio2.entidades.DtoTrabajo;
+import com.example.laboratorio2.entidades.Empleado;
 import com.example.laboratorio2.entidades.Message;
 import com.example.laboratorio2.entidades.Trabajo;
 import com.google.gson.Gson;
@@ -57,6 +60,16 @@ public class InternetActivity extends AppCompatActivity {
                         Gson gson = new Gson();
                         DtoTrabajo t = gson.fromJson(response, DtoTrabajo.class);
                         Log.d("trabajo", String.valueOf(t.getTrabajos().length));
+
+                        DtoEmpleado dtoEmpleado = gson.fromJson(response,DtoEmpleado.class);
+                        Empleado[] listaEmpleados = dtoEmpleado.getEmpleados();
+
+                        ListaEmpleadosAdapter listaEmpleadosAdapter =
+                                new ListaEmpleadosAdapter(listaEmpleados,InternetActivity.this);
+
+                        RecyclerView recyclerView = findViewById(R.id.recyclerView2);
+                        recyclerView.setAdapter(listaEmpleadosAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(InternetActivity.this));
 
                     }
                 },
