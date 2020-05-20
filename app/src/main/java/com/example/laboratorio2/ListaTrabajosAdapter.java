@@ -25,7 +25,7 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
 
         public TrabajoViewHolder( View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.itemtrabajos);
+            textView = itemView.findViewById(R.id.textViewtrab);
         }
     }
     @NonNull
@@ -39,8 +39,8 @@ public class ListaTrabajosAdapter extends RecyclerView.Adapter<ListaTrabajosAdap
     @Override
     public void onBindViewHolder(@NonNull TrabajoViewHolder holder, int position) {
         Trabajo t = listaTrabajos[position];
-        String texto = t.getJobTitle() + " " + t.getMaxSalary() ;
-        holder.textView.setText(texto);
+        String text =t.getJobId()+ " "+ t.getJobTitle() + " " + t.getCreatedBy() ;
+        holder.textView.setText(text);
     }
 
     @Override

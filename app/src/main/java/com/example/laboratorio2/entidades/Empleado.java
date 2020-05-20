@@ -6,18 +6,18 @@ public class Empleado {
     private String lastName;
     private String email;
     private String phoneNumber;
-    private Trabajo[] jobId;
+    private Trabajo jobId;
     private Double salary;
     private Double commissionPct;
-    private Jefe[] managerId;
-    private Departamento[] departmentId;
+    private Jefe managerId;
+    private Departamento departmentId;
     private String createdBy;
 
-    public Jefe[] getManagerId() {
+    public Jefe getManagerId() {
         return managerId;
     }
 
-    public void setManagerId(Jefe[] managerId) {
+    public void setManagerId(Jefe managerId) {
         this.managerId = managerId;
     }
 
@@ -61,11 +61,11 @@ public class Empleado {
         this.phoneNumber = phoneNumber;
     }
 
-    public Trabajo[] getJobId() {
+    public Trabajo getJobId() {
         return jobId;
     }
 
-    public void setJobId(Trabajo[] jobId) {
+    public void setJobId(Trabajo jobId) {
         this.jobId = jobId;
     }
 
@@ -87,11 +87,11 @@ public class Empleado {
 
 
 
-    public Departamento[] getDepartmentId() {
+    public Departamento getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Departamento[] departmentId) {
+    public void setDepartmentId(Departamento departmentId) {
         this.departmentId = departmentId;
     }
 

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 //import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -14,7 +15,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -28,6 +31,7 @@ import com.example.laboratorio2.entidades.ApiKey;
 import com.example.laboratorio2.entidades.DtoDepartamento;
 import com.example.laboratorio2.entidades.DtoEmpleado;
 import com.example.laboratorio2.entidades.DtoTrabajo;
+import com.example.laboratorio2.entidades.Empleado;
 import com.example.laboratorio2.entidades.Message;
 import com.example.laboratorio2.entidades.Trabajo;
 import com.google.gson.Gson;
@@ -36,6 +40,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class InternetActivity extends AppCompatActivity {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.appbar,menu);
+        return true;
+    }
     String apikey;
 
     @Override
@@ -44,6 +52,14 @@ public class InternetActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         obtenerapikey();
+        Button button = findViewById(R.id.abrirEmpleados);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(InternetActivity.this, EmpleadosActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
@@ -291,6 +307,7 @@ public class InternetActivity extends AppCompatActivity {
                         Log.d("respuesta", response);
                         Gson gson = new Gson();
                         DtoEmpleado t = gson.fromJson(response, DtoEmpleado.class);
+                        //Empleado[] = t.getEmpleados();
 
 
                     }

@@ -1,18 +1,21 @@
 package com.example.laboratorio2.entidades;
 
 public class Jefe {
-    private int employeeId;
+    private String employeeId;
     private String firstName;
     private String lastName;
-    private String email;
 
-    public int getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
+
+    private String email;
+
+
 
     public String getFirstName() {
         return firstName;
